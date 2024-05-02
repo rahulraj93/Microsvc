@@ -1,0 +1,6 @@
+@Micorsvc.Services.CouponAPI_HostAddress = http://localhost:5294
+
+GET {{Micorsvc.Services.CouponAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
