@@ -21,7 +21,7 @@ namespace Microsvc.Web.Services
             {
                 HttpClient client = _httpClientFactory.CreateClient("MicrosvcAPI");
                 HttpRequestMessage message = new();
-                message.Headers.Add("Content-Type", "application/json");
+                message.Headers.Add("Accept", "application/json");
 
                 message.RequestUri = new Uri(requestDto.Url);
                 if (requestDto.Data != null)

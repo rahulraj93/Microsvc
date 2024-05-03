@@ -1,7 +1,20 @@
+using Microsvc.Web.Services;
+using Microsvc.Web.Services.IServices;
+using Microsvc.Web.Utility;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponServiceUrl"];
+builder.Services.AddHttpClient<ICouponService, CouponService>();
+
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+
 
 var app = builder.Build();
 

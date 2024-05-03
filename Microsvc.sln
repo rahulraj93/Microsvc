@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Micorsvc.Services.CouponAPI", "Micorsvc.Services.CouponAPI\Micorsvc.Services.CouponAPI.csproj", "{EAB6C7E0-4F6F-4684-B819-C4F7C9B4ADF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsvc.Web", "Microsvc.Web\Microsvc.Web.csproj", "{288F48DD-B867-43F4-A99A-2B16DD646E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsvc.Web", "Microsvc.Web\Microsvc.Web.csproj", "{288F48DD-B867-43F4-A99A-2B16DD646E75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsvc.Services.AuthAPI", "Microsvc.Services.AuthAPI\Microsvc.Services.AuthAPI.csproj", "{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{288F48DD-B867-43F4-A99A-2B16DD646E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{288F48DD-B867-43F4-A99A-2B16DD646E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{288F48DD-B867-43F4-A99A-2B16DD646E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EAB6C7E0-4F6F-4684-B819-C4F7C9B4ADF0} = {AD921681-E5A0-40FE-9A7E-147C55330C66}
 		{288F48DD-B867-43F4-A99A-2B16DD646E75} = {969C7BB5-61B4-467C-B059-5CC11ACCDBF2}
+		{18FE4E95-94EA-4F1D-A8E4-2CD3363AF5E8} = {AD921681-E5A0-40FE-9A7E-147C55330C66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E078FA3-A1D5-4595-980D-FB424814C812}
