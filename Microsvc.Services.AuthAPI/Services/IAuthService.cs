@@ -4,7 +4,8 @@ namespace Microsvc.Services.AuthAPI.Services
 {
     public interface IAuthService
     {
-        Task<UserDto> RegisterAsync(RegistrationRequestDto registrationRequestDto);
+        Task<string> RegisterAsync(RegistrationRequestDto registrationRequestDto);
         Task<LoginResponseDto> LoginAsync(LoginRequestDto loginRequestDto);
+        Task<bool> AssignRole(string email, string roleName);
     }
 }
