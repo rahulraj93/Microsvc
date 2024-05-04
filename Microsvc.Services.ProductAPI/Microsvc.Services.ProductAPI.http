@@ -1,0 +1,6 @@
+@Microsvc.Services.ProductAPI_HostAddress = http://localhost:5282
+
+GET {{Microsvc.Services.ProductAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
