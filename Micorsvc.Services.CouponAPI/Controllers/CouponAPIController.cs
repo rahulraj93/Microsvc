@@ -2,6 +2,7 @@
 using Micorsvc.Services.CouponAPI.Data;
 using Micorsvc.Services.CouponAPI.Models;
 using Micorsvc.Services.CouponAPI.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.ConstrainedExecution;
@@ -10,6 +11,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
 {
     [Route("api/coupon")]
     [ApiController]
+    [Authorize]
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
@@ -74,6 +76,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ResponseDto Post([FromBody] CouponDto couponDto)
         {
             try
@@ -93,6 +96,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public ResponseDto Put([FromBody] CouponDto couponDto)
         {
             try
@@ -113,6 +117,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public ResponseDto Delete(int id)
         {
             try

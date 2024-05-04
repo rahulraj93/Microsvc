@@ -9,7 +9,6 @@ namespace Microsvc.Services.AuthAPI.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    [Authorize]
     public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;

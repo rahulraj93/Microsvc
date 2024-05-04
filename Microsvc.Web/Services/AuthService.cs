@@ -20,7 +20,7 @@ namespace Microsvc.Web.Services
             {
                 ApiType = ApiType.POST,
                 Data = registrationRequestDto,
-                Url = SD.CouponAPIBase + "/api/auth/assignrole"
+                Url = SD.AuthAPIBase + "/api/auth/assignrole"
             });
         }
 
@@ -30,8 +30,8 @@ namespace Microsvc.Web.Services
             {
                 ApiType = ApiType.POST,
                 Data = loginRequestDto,
-                Url = SD.CouponAPIBase + "/api/auth/login"
-            });
+                Url = SD.AuthAPIBase + "/api/auth/login"
+            },withBearer:false);
         }
 
         public async Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto)
@@ -40,8 +40,8 @@ namespace Microsvc.Web.Services
             {
                 ApiType = ApiType.POST,
                 Data = registrationRequestDto,
-                Url = SD.CouponAPIBase + "/api/auth/register"
-            });
+                Url = SD.AuthAPIBase + "/api/auth/register"
+            }, withBearer: false);
         }
     }
 }
