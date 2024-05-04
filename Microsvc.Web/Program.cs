@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsvc.Web.Services;
 using Microsvc.Web.Services.IServices;
 using Microsvc.Web.Utility;
@@ -10,10 +11,21 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
 SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponServiceUrl"];
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:AuthServiceUrl"];
+
 builder.Services.AddHttpClient<ICouponService, CouponService>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+    });
 
 
 var app = builder.Build();
@@ -30,6 +42,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

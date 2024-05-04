@@ -1,4 +1,5 @@
 ﻿using Micorsvc.Services.AuthAPI.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsvc.Services.AuthAPI.Models.Dto;
@@ -8,6 +9,7 @@ namespace Microsvc.Services.AuthAPI.Controllers
 {
     [Route("api/auth")]
     [ApiController]
+    [Authorize]
     public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;

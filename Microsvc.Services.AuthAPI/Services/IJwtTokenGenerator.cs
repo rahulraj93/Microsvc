@@ -4,6 +4,6 @@ namespace Microsvc.Services.AuthAPI.Services
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateJwtToken(ApplicationUser token);
+        string GenerateJwtToken(ApplicationUser token, IEnumerable<string> roles);
     }
 }
