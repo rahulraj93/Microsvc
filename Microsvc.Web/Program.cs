@@ -9,17 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<ICouponService, CouponService>();
+builder.Services.AddHttpClient<ICartService, CartService>();
+builder.Services.AddHttpClient<IProductService, ProductService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponServiceUrl"];
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthServiceUrl"];
 SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductServiceUrl"];
-SD.ProductAPIBase = builder.Configuration["ServiceUrls:ShoppingCartServiceUrl"];
-
-builder.Services.AddHttpClient<ICouponService, CouponService>();
+SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:CartServiceUrl"];
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
