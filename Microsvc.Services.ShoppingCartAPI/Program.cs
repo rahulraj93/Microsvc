@@ -5,6 +5,8 @@ using Micorsvc.Services.ShoppingCartAPI.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsvc.Services.ShoppingCartAPI.Services;
+using Microsvc.Services.ShoppingCartAPI.Services.IServices;
 using System.Reflection;
 using System.Text;
 
@@ -18,6 +20,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 IMapper mapper = MappingConfig.RegisterMap().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddHttpClient("Product", x => x.BaseAddress =
+new Uri(builder.Configuration["ServiceUrls:ProductServiceUrl"]));
+builder.Services.AddHttpClient("Coupon", x => x.BaseAddress =
+new Uri(builder.Configuration["ServiceUrls:CouponServiceUrl"]));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

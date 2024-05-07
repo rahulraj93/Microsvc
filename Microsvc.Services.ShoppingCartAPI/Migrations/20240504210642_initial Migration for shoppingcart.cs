@@ -14,14 +14,14 @@ namespace Microsvc.Services.ShoppingCartAPI.Migrations
                 name: "CartHeaders",
                 columns: table => new
                 {
-                    CartheaderId = table.Column<int>(type: "int", nullable: false)
+                    CartHeaderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartHeaders", x => x.CartheaderId);
+                    table.PrimaryKey("PK_CartHeaders", x => x.CartHeaderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,7 +41,7 @@ namespace Microsvc.Services.ShoppingCartAPI.Migrations
                         name: "FK_CartDetails_CartHeaders_CartHeaderId",
                         column: x => x.CartHeaderId,
                         principalTable: "CartHeaders",
-                        principalColumn: "CartheaderId",
+                        principalColumn: "CartHeaderId",
                         onDelete: ReferentialAction.Cascade);
                 });
 

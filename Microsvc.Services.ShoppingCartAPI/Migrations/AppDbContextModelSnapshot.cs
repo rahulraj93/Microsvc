@@ -42,16 +42,16 @@ namespace Microsvc.Services.ShoppingCartAPI.Migrations
 
                     b.HasIndex("CartHeaderId");
 
-                    b.ToTable("CartDetails");
+                    b.ToTable("CartDetails", (string)null);
                 });
 
             modelBuilder.Entity("Microsvc.Services.ShoppingCartAPI.Models.CartHeader", b =>
                 {
-                    b.Property<int>("CartheaderId")
+                    b.Property<int>("CartHeaderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartheaderId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartHeaderId"));
 
                     b.Property<string>("CouponCode")
                         .HasColumnType("nvarchar(max)");
@@ -59,9 +59,9 @@ namespace Microsvc.Services.ShoppingCartAPI.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CartheaderId");
+                    b.HasKey("CartHeaderId");
 
-                    b.ToTable("CartHeaders");
+                    b.ToTable("CartHeaders", (string)null);
                 });
 
             modelBuilder.Entity("Microsvc.Services.ShoppingCartAPI.Models.CartDetails", b =>
