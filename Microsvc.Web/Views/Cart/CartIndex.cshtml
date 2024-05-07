@@ -1,4 +1,6 @@
 ﻿@model CartDto
+@if(Model.CartHeader !=null && Model.CartDetails?.Count()>0)
+{
 <form method="post">
     <br />
     <input asp-for="CartHeader.UserId" hidden />
@@ -46,7 +48,7 @@
                             <span style="font-size:17px;">@string.Format("{0:c}",cartDetail.Product.Price) </span>
                         </div>
                         <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
-                            <span style="font-size:17px;"> @cartDetail.Product.Count</span>
+                            <span style="font-size:17px;"> @cartDetail.Count</span>
                         </div>
                         <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
                             <a asp-action="Remove" asp-route-cartDetailsId="@cartDetail.CartDetailsId" class="btn btn-sm btn-danger">
@@ -91,3 +93,11 @@
         </div>
     </div>
 </form>
+}
+else{
+<div>
+    <p>
+        Please add an item to Cart.
+    </p>
+</div>
+}
