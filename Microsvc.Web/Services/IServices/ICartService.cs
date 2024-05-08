@@ -9,5 +9,6 @@ namespace Microsvc.Web.Services.IServices
         Task<ResponseDto?> RemoveFromCartAsync(int cartDetailsId);
         Task<ResponseDto?> ApplyCouponAsync(CartDto cartDto);
         Task<ResponseDto?> RemoveCouponAsync(CartDto cartDto);
+        Task<ResponseDto?> EmailCart(CartDto cartDto);
     }
 }

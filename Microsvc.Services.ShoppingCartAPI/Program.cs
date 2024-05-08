@@ -6,6 +6,7 @@ using Micorsvc.Services.ShoppingCartAPI.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsvc.MessageBus;
 using Microsvc.Services.ShoppingCartAPI.Services;
 using Microsvc.Services.ShoppingCartAPI.Services.IServices;
 using System.Reflection;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 builder.Services.AddHttpClient("Product", x => x.BaseAddress =
 new Uri(builder.Configuration["ServiceUrls:ProductServiceUrl"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 builder.Services.AddHttpClient("Coupon", x => x.BaseAddress =

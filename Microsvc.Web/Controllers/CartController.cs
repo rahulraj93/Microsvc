@@ -56,6 +56,20 @@ namespace Microsvc.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EmailCart(CartDto cartDto)
+        {
+            CartDto cart = await GetTheUserCartDetails();
+            cart.CartHeader.Email = User.Claims.Where(x => x.Type == JwtRegisteredClaimNames.Email)?.FirstOrDefault()?.Value;
+            ResponseDto? response = await _cartService.EmailCart(cartDto);
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Sent Email successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+            return View();
+        }
+
         private async Task<CartDto> GetTheUserCartDetails()
         {
             var userId = User.Claims.Where(x => x.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
