@@ -1,15 +1,20 @@
-﻿using Microsvc.Services.EmailAPI.Models.Dto;
+﻿using Micorsvc.Services.EmailAPI.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsvc.Services.EmailAPI.Models;
+using Microsvc.Services.EmailAPI.Models.Dto;
 using System.Text;
 
 namespace Microsvc.Services.EmailAPI.Services
 {
     public class EmailService : IEmailService
     {
-        public EmailService()
+        private DbContextOptions<AppDbContext> _options;
+
+        public EmailService(DbContextOptions<AppDbContext> options)
         {
-            
+            this._options = options;
         }
-        public Task EmailCartAndLog(CartDto cartDto)
+        public async Task EmailCartAndLog(CartDto cartDto)
         {
             StringBuilder message = new StringBuilder();
 
@@ -24,7 +29,35 @@ namespace Microsvc.Services.EmailAPI.Services
                 message.Append("<li>");
             }
             message.Append("<ul>");
-            return Task.FromResult(message.ToString());
-        } 
+
+            await LogAndEmail(message.ToString(), cartDto.CartHeader.Email);
+        }
+
+        public async Task RegisterUserEmailAndLog(string email)
+        {
+            string message = "User Registration Successful. <br/> Email : " + email;
+            await LogAndEmail(message, email);
+        }
+
+        private async Task<bool> LogAndEmail(string message,string email)
+        {
+            try
+            {
+                EmailLogger emailLogger = new()
+                {
+                    Email = email,
+                    EmailSent = DateTime.Now,
+                    Message = message
+                };
+                await using var _db = new AppDbContext(_options);
+                await _db.EmailLoggers.AddAsync(emailLogger);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex) 
+            {
+                return false;
+            }
+        }
     }
 }

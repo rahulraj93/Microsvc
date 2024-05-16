@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsvc.MessageBus;
 using Microsvc.Services.AuthAPI.Models.Dto;
 using Microsvc.Services.AuthAPI.Services;
 
@@ -12,11 +13,17 @@ namespace Microsvc.Services.AuthAPI.Controllers
     public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
         protected ResponseDto _response;
 
-        public AuthAPIController(IAuthService authService)
+        public AuthAPIController(IAuthService authService
+                                ,IMessageBus messageBus
+                                ,IConfiguration configuration)
         {
             this._authService = authService;
+            this._messageBus = messageBus;
+            this._configuration = configuration;
             _response = new ResponseDto();
         }
 
@@ -30,6 +37,7 @@ namespace Microsvc.Services.AuthAPI.Controllers
                 _response.Message = errorMessage;
                 return BadRequest(_response);
             }
+            await _messageBus.PublishMessage(registration.Email, _configuration.GetValue<string>("TopicAndQueue:RegistrationQueue"));
             return Ok(_response);
         }
 
