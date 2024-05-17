@@ -10,15 +10,44 @@ namespace Microsvc.Web.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly IOrderService _orderService;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService
+                                ,IOrderService orderService)
         {
             this._cartService = cartService;
+            this._orderService = orderService;
         }
         [Authorize]
         public async Task<IActionResult> CartIndex()
         {
             return View(await GetTheUserCartDetails());
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            return View(await GetTheUserCartDetails());
+        }
+
+
+        [HttpPost]
+        [ActionName("Checkout")]
+        public async Task<IActionResult> Checkout(CartDto cartDto)
+        {
+            CartDto cart = await GetTheUserCartDetails();
+            cart.CartHeader.Phone = cartDto.CartHeader.Phone;
+            cart.CartHeader.Email = cartDto.CartHeader.Email;
+            cart.CartHeader.Name = cartDto.CartHeader.Name;
+
+            var response = await _orderService.CreateOrderAsync(cart);
+
+            OrderHeaderDto orderHeaderDto = JsonConvert.DeserializeObject<OrderHeaderDto>(response.Result.ToString());
+            if(response != null && response.IsSuccess)
+            {
+                //get stripe session and redirect to stripe to place order
+            }
+            return View();
         }
 
         public async Task<IActionResult> Remove(int cartDetailsId)

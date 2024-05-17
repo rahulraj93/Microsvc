@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace Microsvc.Services.ShoppingCartAPI.Models.Dto
+﻿namespace Microsvc.Services.OrderAPI.Models.Dto
 {
     public class CartHeaderDto
     {
