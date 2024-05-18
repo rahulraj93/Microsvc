@@ -7,6 +7,10 @@ using Microsvc.Services.OrderAPI.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsvc.Services.OrderAPI.Utility;
 using Microsvc.Services.OrderAPI.Models;
+using Stripe;
+using Stripe.BillingPortal;
+using Stripe.Checkout;
+using Session = Stripe.Checkout.Session;
 
 namespace Microsvc.Services.OrderAPI.Controllers
 {
@@ -51,6 +55,56 @@ namespace Microsvc.Services.OrderAPI.Controllers
                 _response.Message = ex.Message;
             }
             return _response;
+        }
+
+        //[Authorize]
+        [HttpPost("createstripesession")]
+        public async Task<ResponseDto> CreateStripeSession([FromBody] StripeRequestDto stripeRequestDto)
+        {
+            try
+            {
+                var options = new Stripe.Checkout.SessionCreateOptions
+                {
+                    SuccessUrl = stripeRequestDto.ApprovedUrl,
+                    CancelUrl = stripeRequestDto.ApprovedUrl,
+                    LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
+                     Mode = "payment",
+                };
+
+                foreach(var item in stripeRequestDto.OrderHeader.OrderDetails)
+                {
+                    var sessionLineItem = new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long)(item.Price*100), // 20.99 -> 2099
+                            Currency = "cad",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = item.Product.Name
+                            }
+                        },
+                        Quantity =  item.Count
+                    };
+                    options.LineItems.Add(sessionLineItem);
+                }
+                var service = new Stripe.Checkout.SessionService();
+                Session session =  service.Create(options);
+                stripeRequestDto.StripeSessionUrl = session.Url;
+
+                OrderHeader orderHeader = _db.OrderHeaders.First(x => x.OrderHeaderId == stripeRequestDto.OrderHeader.OrderHeaderId);
+                orderHeader.StripeSessionId = session.Id;
+                _db.SaveChanges();
+                _response.Result = stripeRequestDto;
+            }
+            catch(Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+
+            }
+            return _response;
+
         }
 
     }

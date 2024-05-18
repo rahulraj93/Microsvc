@@ -24,5 +24,15 @@ namespace Microsvc.Web.Services
                 Url = SD.OrderAPIBase + "/api/order/createorder"
             });
         }
+
+        public async Task<ResponseDto?> CreateStripeSessionAsync(StripeRequestDto stripeRequestDto)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.POST,
+                Data = stripeRequestDto,
+                Url = SD.OrderAPIBase + "/api/order/createstripesession"
+            });
+        }
     }
 }

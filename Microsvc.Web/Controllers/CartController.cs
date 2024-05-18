@@ -46,9 +46,29 @@ namespace Microsvc.Web.Controllers
             if(response != null && response.IsSuccess)
             {
                 //get stripe session and redirect to stripe to place order
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+                StripeRequestDto stripeRequestDto = new()
+                {
+                    ApprovedUrl = domain + "cart/Confirmation?orderId=" + orderHeaderDto.OrderHeaderId,
+                    CancelUrl = domain + "cart/checkout",
+                    OrderHeader = orderHeaderDto
+                };
+
+                var stripeResponse = await _orderService.CreateStripeSessionAsync(stripeRequestDto);
+                StripeRequestDto stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDto>(stripeResponse.Result.ToString());
+                Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
+                return new StatusCodeResult(303);
             }
-            return View();
+
+            return View(cart);
         }
+
+        public async Task<IActionResult> Confirmation(int orderId)
+        {
+            return View(orderId);
+        }
+
+
 
         public async Task<IActionResult> Remove(int cartDetailsId)
         {            
