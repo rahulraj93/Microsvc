@@ -85,6 +85,17 @@ namespace Micorsvc.Services.CouponAPI.Controllers
                 _db.Coupons.Add(coupon);
                 _db.SaveChanges();
 
+                var options = new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "usd",
+                    Id = couponDto.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                service.Create(options);
+
+
                 _response.Result = _mapper.Map<CouponDto>(coupon);                
             }
             catch (Exception ex)
@@ -125,6 +136,9 @@ namespace Micorsvc.Services.CouponAPI.Controllers
                 Coupon coupon = _db.Coupons.First(x=> x.CouponId == id);
                 _db.Coupons.Remove(coupon);
                 _db.SaveChanges();
+
+                var service = new Stripe.CouponService();
+                service.Delete(coupon.CouponCode);
             }
             catch (Exception ex)
             {

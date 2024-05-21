@@ -25,13 +25,23 @@ namespace Microsvc.Web.Services
             });
         }
 
-        public async Task<ResponseDto?> CreateStripeSessionAsync(StripeRequestDto stripeRequestDto)
+        public async Task<ResponseDto?> CreateStripeAsync(StripeRequestDto stripeRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
                 Data = stripeRequestDto,
                 Url = SD.OrderAPIBase + "/api/order/createstripesession"
+            });
+        }
+
+        public async Task<ResponseDto?> ValidateStripeSession(int orderHeaderId)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.POST,
+                Data = orderHeaderId,
+                Url = SD.OrderAPIBase + "/api/order/ValidateStripeSession"
             });
         }
     }

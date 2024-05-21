@@ -6,6 +6,7 @@ namespace Microsvc.Web.Services.IServices
     public interface IOrderService
     {
         Task<ResponseDto?> CreateOrderAsync(CartDto cartDto);
-        Task<ResponseDto?> CreateStripeSessionAsync(StripeRequestDto stripeRequestDto);
+        Task<ResponseDto?> CreateStripeAsync(StripeRequestDto stripeRequestDto);
+        Task<ResponseDto?> ValidateStripeSession(int orderHeaderId);
     }
 }

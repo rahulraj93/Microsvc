@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsvc.Web.Models;
 using Microsvc.Web.Services.IServices;
+using Microsvc.Web.Utility;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -54,7 +55,7 @@ namespace Microsvc.Web.Controllers
                     OrderHeader = orderHeaderDto
                 };
 
-                var stripeResponse = await _orderService.CreateStripeSessionAsync(stripeRequestDto);
+                var stripeResponse = await _orderService.CreateStripeAsync(stripeRequestDto);
                 StripeRequestDto stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDto>(stripeResponse.Result.ToString());
                 Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
                 return new StatusCodeResult(303);
@@ -65,7 +66,19 @@ namespace Microsvc.Web.Controllers
 
         public async Task<IActionResult> Confirmation(int orderId)
         {
+            ResponseDto? response = await _orderService.ValidateStripeSession(orderId);
+            if (response != null & response.IsSuccess)
+            {
+
+                OrderHeaderDto orderHeader = JsonConvert.DeserializeObject<OrderHeaderDto>(Convert.ToString(response.Result));
+                if (orderHeader.Status == SD.Status_Approved)
+                {
+                    return View(orderId);
+                }
+            }
+            //redirect to some error page based on status
             return View(orderId);
+
         }
 
 
