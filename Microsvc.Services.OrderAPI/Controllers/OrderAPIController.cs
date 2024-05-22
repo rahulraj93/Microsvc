@@ -11,6 +11,8 @@ using Stripe;
 using Stripe.BillingPortal;
 using Stripe.Checkout;
 using Session = Stripe.Checkout.Session;
+using Micorsvc.Services.OrderAPI.Models.Dto;
+using Microsvc.MessageBus;
 
 namespace Microsvc.Services.OrderAPI.Controllers
 {
@@ -21,14 +23,20 @@ namespace Microsvc.Services.OrderAPI.Controllers
         private readonly AppDbContext _db;
         private IMapper _mapper;
         private readonly IProductService _productService;
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
         private ResponseDto _response;
 
         public OrderAPIController(AppDbContext db
             , IMapper mapper
-            , IProductService productService)
+            , IProductService productService
+            , IMessageBus messageBus
+            , IConfiguration configuration)
         {
             this._db = db;
             this._productService = productService;
+            this._messageBus = messageBus;
+            this._configuration = configuration;
             _mapper = mapper;
             _response = new ResponseDto();
         }
@@ -141,12 +149,12 @@ namespace Microsvc.Services.OrderAPI.Controllers
                     orderHeader.PaymentIntentId = paymentIntent.Id;
                     orderHeader.Status = SD.Status_Approved;
                     _db.SaveChanges();
-                    //RewardsDto rewardsDto = new()
-                    //{
-                    //    OrderId = orderHeader.OrderHeaderId,
-                    //    RewardsActivity = Convert.ToInt32(orderHeader.OrderTotal),
-                    //    UserId = orderHeader.UserId
-                    //};
+                    RewardsDto rewardsDto = new()
+                    {
+                        OrderId = orderHeader.OrderHeaderId,
+                        RewardActivity = Convert.ToInt32(orderHeader.OrderTotal),
+                        UserId = orderHeader.UserId
+                    };
                     //string topicName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
                     //await _messageBus.PublishMessage(rewardsDto, topicName);
                     _response.Result = _mapper.Map<OrderHeaderDto>(orderHeader);

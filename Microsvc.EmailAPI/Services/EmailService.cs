@@ -1,4 +1,5 @@
 ﻿using Micorsvc.Services.EmailAPI.Data;
+using Micorsvc.Services.EmailAPI.Message;
 using Microsoft.EntityFrameworkCore;
 using Microsvc.Services.EmailAPI.Models;
 using Microsvc.Services.EmailAPI.Models.Dto;
@@ -31,6 +32,11 @@ namespace Microsvc.Services.EmailAPI.Services
             message.Append("<ul>");
 
             await LogAndEmail(message.ToString(), cartDto.CartHeader.Email);
+        }
+
+        public Task LogOrderPlaced(RewardsMessage message)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task RegisterUserEmailAndLog(string email)

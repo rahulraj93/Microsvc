@@ -1,4 +1,5 @@
-﻿using Microsvc.Services.EmailAPI.Models.Dto;
+﻿using Micorsvc.Services.EmailAPI.Message;
+using Microsvc.Services.EmailAPI.Models.Dto;
 
 namespace Microsvc.Services.EmailAPI.Services
 {
@@ -6,5 +7,6 @@ namespace Microsvc.Services.EmailAPI.Services
     {
         Task EmailCartAndLog(CartDto cartDto);
         Task RegisterUserEmailAndLog(string email);
+        Task LogOrderPlaced(RewardsMessage message);
     }
 }

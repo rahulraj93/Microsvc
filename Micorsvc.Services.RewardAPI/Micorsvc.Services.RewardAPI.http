@@ -1,0 +1,6 @@
+@Micorsvc.Services.RewardAPI_HostAddress = http://localhost:5209
+
+GET {{Micorsvc.Services.RewardAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
