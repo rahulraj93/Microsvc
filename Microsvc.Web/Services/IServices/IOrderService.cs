@@ -8,5 +8,8 @@ namespace Microsvc.Web.Services.IServices
         Task<ResponseDto?> CreateOrderAsync(CartDto cartDto);
         Task<ResponseDto?> CreateStripeAsync(StripeRequestDto stripeRequestDto);
         Task<ResponseDto?> ValidateStripeSession(int orderHeaderId);
+        Task<ResponseDto?> GetAllOrder(string? userId);
+        Task<ResponseDto?> GetOrder(int orderId);
+        Task<ResponseDto?> UpdateOrderStatus(int orderId, string newStatus);
     }
 }
