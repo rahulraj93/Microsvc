@@ -39,7 +39,8 @@ namespace Microsvc.Web.Services
             {
                 ApiType = ApiType.POST,
                 Data = productDto,
-                Url = SD.ProductAPIBase + "/api/product"
+                Url = SD.ProductAPIBase + "/api/product",
+                ContentType = SD.ContentType.MultipartFormData
             });
         }
 
@@ -52,13 +53,23 @@ namespace Microsvc.Web.Services
             });
         }
 
+        public async Task<ResponseDto?> GetProductByIdAsync(int id)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = SD.ProductAPIBase + "/api/product/" + id
+            });
+        }
+
         public async Task<ResponseDto?> UpdateProductAsync(ProductDto couponDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.PUT,
                 Data = couponDto,
-                Url = SD.ProductAPIBase + "/api/product"
+                Url = SD.ProductAPIBase + "/api/product",
+                ContentType = SD.ContentType.MultipartFormData
             });
         }
     }

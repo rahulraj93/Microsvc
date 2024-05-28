@@ -9,6 +9,7 @@ namespace Microsvc.Web.Services.IServices
         Task<ResponseDto?> GetProductAsync(int productId);
         Task<ResponseDto?> UpdateProductAsync(ProductDto productDto);
         Task<ResponseDto?> AddProductAsync(ProductDto productDto);
+        Task<ResponseDto?> GetProductByIdAsync(int id);
         Task<ResponseDto?> DeleteProductAsync(int id);
     }
 }

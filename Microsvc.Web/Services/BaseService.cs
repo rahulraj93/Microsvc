@@ -23,7 +23,15 @@ namespace Microsvc.Web.Services
             {
                 HttpClient client = _httpClientFactory.CreateClient("MicrosvcAPI");
                 HttpRequestMessage message = new();
-                message.Headers.Add("Accept", "application/json");
+                if (requestDto.ContentType == ContentType.MultipartFormData)
+                {
+                    message.Headers.Add("Accept", "*/*");
+                }
+                else
+                {
+                    message.Headers.Add("Accept", "application/json");
+                }
+                //Token
                 if (withBearer)
                 {
                     var token = _tokenProvider.GetToken();
@@ -31,10 +39,37 @@ namespace Microsvc.Web.Services
                 }
 
                 message.RequestUri = new Uri(requestDto.Url);
-                if (requestDto.Data != null)
+
+                if (requestDto.ContentType == ContentType.MultipartFormData)
                 {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, "application/json");
+                    var content = new MultipartFormDataContent();
+
+                    foreach (var prop in requestDto.Data.GetType().GetProperties())
+                    {
+                        var value = prop.GetValue(requestDto.Data);
+                        if (value is FormFile)
+                        {
+                            var file = (FormFile)value;
+                            if (file != null)
+                            {
+                                content.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                            }
+                        }
+                        else
+                        {
+                            content.Add(new StringContent(value == null ? "" : value.ToString()), prop.Name);
+                        }
+                    }
+                    message.Content = content;
                 }
+                else
+                {
+                    if (requestDto.Data != null)
+                    {
+                        message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, "application/json");
+                    }
+                }
+
 
                 HttpResponseMessage? apiResonse = null;
 
