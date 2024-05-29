@@ -77,7 +77,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ResponseDto Post([FromBody] ProductDto productDto)
+        public ResponseDto Post(ProductDto productDto)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public ResponseDto Put([FromBody] ProductDto productDto)
+        public ResponseDto Put(ProductDto productDto)
         {
             try
             {

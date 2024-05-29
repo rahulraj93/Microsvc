@@ -62,12 +62,12 @@ namespace Microsvc.Web.Services
             });
         }
 
-        public async Task<ResponseDto?> UpdateProductAsync(ProductDto couponDto)
+        public async Task<ResponseDto?> UpdateProductAsync(ProductDto productDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.PUT,
-                Data = couponDto,
+                Data = productDto,
                 Url = SD.ProductAPIBase + "/api/product",
                 ContentType = SD.ContentType.MultipartFormData
             });
