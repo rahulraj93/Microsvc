@@ -153,7 +153,7 @@ namespace Micorsvc.Services.CouponAPI.Controllers
                     product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
                     product.ImageLocalPath = filePath;
                 }
-                _db.Products.Update(product);
+                _db.Products.Update(product); 
                 _db.SaveChanges();
                 _response.Result = _mapper.Map<ProductDto>(product);
             }
